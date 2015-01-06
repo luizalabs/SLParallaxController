@@ -48,7 +48,7 @@
     _heighTableView             = SCREEN_HEIGHT_WITHOUT_STATUS_BAR;
     _minHeighTableViewHeader    = MIN_HEIGHT_HEADER;
     _default_Y_tableView        = HEIGHT_STATUS_BAR;
-    self.Y_tableViewOnBottom        = Y_DOWN_TABLEVIEW;
+    self.Y_tableViewOnBottom    = Y_DOWN_TABLEVIEW;
     _minYOffsetToReach          = MIN_Y_OFFSET_TO_REACH;
     _default_Y_mapView          = DEFAULT_Y_OFFSET;
     _headerYOffSet              = DEFAULT_Y_OFFSET;
@@ -127,7 +127,12 @@
                                                                          self.tableView.frame.size.width,
                                                                          self.tableView.frame.size.height);
                      }
-                     completion:^(BOOL finished){
+                     completion:^(BOOL finished) {
+                         self.tableView.frame = CGRectMake(self.tableView.frame.origin.x,
+                                                           self.tableView.frame.origin.y,
+                                                           self.tableView.frame.size.width,
+                                                           self.view.frame.size.height - self.heightMap);
+                         
                          // Disable cells selection
                          [self.tableView setAllowsSelection:NO];
                          self.isShutterOpen = YES;
@@ -147,8 +152,15 @@
                         options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.mapView.frame             = CGRectMake(0, self.default_Y_mapView, self.mapView.frame.size.width, self.heighTableView);
-                         self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, self.headerYOffSet, self.view.frame.size.width, self.heighTableViewHeader)];
-                         self.tableView.frame           = CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height);
+                         self.tableView.frame           = CGRectMake(0,
+                                                                     0,
+                                                                     self.tableView.frame.size.width,
+                                                                     self.heighTableView);
+                         
+                         self.tableView.tableHeaderView.frame = CGRectMake(0.0, self.headerYOffSet, self.view.frame.size.width, self.heighTableViewHeader);
+                         UIView *header = self.tableView.tableHeaderView;
+                         self.tableView.tableHeaderView = nil;
+                         self.tableView.tableHeaderView = header;
                      }
                      completion:^(BOOL finished){
                          // Enable cells selection
