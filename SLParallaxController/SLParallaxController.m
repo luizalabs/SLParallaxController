@@ -15,7 +15,7 @@
 #define DEFAULT_HEIGHT_HEADER                100.0f
 #define MIN_HEIGHT_HEADER                    10.0f
 #define DEFAULT_Y_OFFSET                     ([[UIScreen mainScreen] bounds].size.height == 480.0f) ? -200.0f : -250.0f
-#define FULL_Y_OFFSET                        -200.0f
+#define FULL_Y_OFFSET                        0
 #define MIN_Y_OFFSET_TO_REACH                -30
 
 
@@ -48,11 +48,10 @@
     _heighTableView             = SCREEN_HEIGHT_WITHOUT_STATUS_BAR;
     _minHeighTableViewHeader    = MIN_HEIGHT_HEADER;
     _default_Y_tableView        = HEIGHT_STATUS_BAR;
-    _Y_tableViewOnBottom        = Y_DOWN_TABLEVIEW;
+    self.Y_tableViewOnBottom        = Y_DOWN_TABLEVIEW;
     _minYOffsetToReach          = MIN_Y_OFFSET_TO_REACH;
     _default_Y_mapView          = DEFAULT_Y_OFFSET;
     _headerYOffSet              = DEFAULT_Y_OFFSET;
-    _heightMap                  = 1000.0f;
 }
 
 -(void)setupTableView{
@@ -80,6 +79,12 @@
     self.mapView.delegate = self;
     [self.view insertSubview:self.mapView belowSubview:self.tableView];
 }
+
+-(void) setY_tableViewOnBottom:(float)Y_tableViewOnBottom {
+    _Y_tableViewOnBottom = Y_tableViewOnBottom;
+    _heightMap = self.view.frame.size.height - (self.view.frame.size.height - _Y_tableViewOnBottom);
+}
+
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -172,15 +177,14 @@
         // Scrolling Up -> normal behavior
         headerMapViewFrame.origin.y = self.headerYOffSet - scrollOffset;
     }
-    self.mapView.frame = headerMapViewFrame;
     
     // check if the Y offset is under the minus Y to reach
-    if (self.tableView.contentOffset.y < self.minYOffsetToReach){
+    if (self.tableView.contentOffset.y < self.minYOffsetToReach) {
         if(!self.displayMap)
-            self.displayMap                      = YES;
-    }else{
+            self.displayMap = YES;
+    } else {
         if(self.displayMap)
-            self.displayMap                      = NO;
+            self.displayMap = NO;
     }
 }
 
