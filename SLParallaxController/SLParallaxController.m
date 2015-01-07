@@ -13,7 +13,7 @@
 #define HEIGHT_STATUS_BAR                    20
 #define Y_DOWN_TABLEVIEW                     SCREEN_HEIGHT_WITHOUT_STATUS_BAR - 40
 #define DEFAULT_HEIGHT_HEADER                100.0f
-#define MIN_HEIGHT_HEADER                    10.0f
+#define MIN_HEIGHT_HEADER                    0
 #define DEFAULT_Y_OFFSET                     ([[UIScreen mainScreen] bounds].size.height == 480.0f) ? -200.0f : -250.0f
 #define FULL_Y_OFFSET                        0
 #define MIN_Y_OFFSET_TO_REACH                -30
